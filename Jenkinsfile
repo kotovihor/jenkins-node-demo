@@ -23,24 +23,17 @@ pipeline {
             }
         }
 
-	stage('Check Minikube') {
-    		steps {
-        echo 'Checking Minikube...'
-        bat 'whoami'
-        bat 'minikube profile list'
-        bat 'minikube status'
-        bat 'kubectl get nodes'
-    		}
-	}
+        stage('Check Minikube') {
+            steps {
+                echo 'Checking Minikube and Kubernetes connection...'
+                bat 'whoami'
+                bat 'minikube profile list'
+                bat 'minikube status'
+                bat 'kubectl get nodes'
+            }
+        }
 
-	stage('Load Image to Minikube') {
-    		steps {
-        echo 'Loading Docker image into Minikube...'
-        bat 'minikube image load jenkins-node-demo:latest'
-    		}
-	}
-
-        stage('Load Image to Minikube') {
+        stage('Load Docker Image to Minikube') {
             steps {
                 echo 'Loading Docker image into Minikube...'
                 bat 'minikube image load jenkins-node-demo:latest'
@@ -61,6 +54,7 @@ pipeline {
             steps {
                 echo 'Checking Kubernetes resources...'
                 bat 'kubectl get pods'
+                bat 'kubectl get deployments'
                 bat 'kubectl get svc'
             }
         }
